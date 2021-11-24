@@ -15,3 +15,4 @@ Passo a Passo do que fiz
 14) Instalar o dotenv (npm install dotenv) para criar variavel de ambiente e fui no app.js e importei o dotenv e fiz o dotenv.config();
 15) Criei o arquivo .env e configurei o PORT=5050  e alterei no app.js a porta de escuta pela variavel de ambiente do .env
 16) Criei o .gitignore pra nao mandar o .env e o node_modules
+17) Criação dos Middlewares no app.js
