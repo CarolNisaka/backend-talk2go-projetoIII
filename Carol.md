@@ -16,3 +16,4 @@ Passo a Passo do que fiz
 15) Criei o arquivo .env e configurei o PORT=5050  e alterei no app.js a porta de escuta pela variavel de ambiente do .env
 16) Criei o .gitignore pra nao mandar o .env e o node_modules
 17) Criação dos Middlewares no app.js
+18) Migrei os middlewares do app para arquivos separados
