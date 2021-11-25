@@ -17,3 +17,5 @@ Passo a Passo do que fiz
 16) Criei o .gitignore pra nao mandar o .env e o node_modules
 17) Criação dos Middlewares no app.js
 18) Migrei os middlewares do app para arquivos separados
+19) instalei mongoose
+20) criei os modelos
