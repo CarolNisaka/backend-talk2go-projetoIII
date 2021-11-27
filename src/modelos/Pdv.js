@@ -15,13 +15,18 @@
 //1
 import { Schema, model } from "mongoose";
 
-//2 - cada pdv tem uma lista de usuarios? ta certo o usuarios começar com um array vazio?
+//2 - o que é array aqui coloco no plural?
 const pdvSchema = new Schema({
+    usuarios: [{type: Schema.Types.ObjectId, ref: 'usuario'}],
+    clientes: [{type: Schema.Types.ObjectId, ref: 'cliente'}],
+    atendimentos: [{type: Schema.Types.ObjectId, ref: 'atendimento'}],
+    viagens: [{type: Schema.Types.ObjectId, ref: 'viagem'}],
+    oportunidades: [{type: Schema.Types.ObjectId, ref: 'oportunidade'}],
     loja: { type: String, required: true, minlength: 5},
     cnpj: { type: String, required: true, minlength: 18, maxlength:18},
     //um cnpj 13.668.087/0001-11
     responsavel: { type: String, required: true, minlength: 6},
-    usuarios: [{type: Schema.Types.ObjectId, ref: 'usuario'}],
+
 }, {
     timestamps: true,
 });

@@ -1,10 +1,12 @@
 //CONCEITO RELEVANTE
 //Serve apenas para o primeiro registro de um pedido
 //Apos o registro do atendimento ele se encerra - nao editavel.
-//Um atendimento vira uma "oportunidade de venda" ou se "encerra"
+//Um atendimento vira uma "oportunidade de venda" ou se "encerra". 
+//Clicar em continuar para vivar oportunidade e finalizar para encerrar (casos em que um atendimento é uma duvida por exemplo)
+// exemplo: comprei na decolar e quero mudar minha viagem (muito frequente no atendimento online)
 // No atendimento registra nome provisorio do cliente e busca na lista de clientes provaveis pessoas com esse nickname
 //esse nome provisorio e esssa etapa é apenas para não sujar banco de dados com nomes ficticios e atendimentos que nao sao relativos a venda 
-// exemplo: comprei na decolar e quero mudar minha viagem (muito frequente no atendimento online)
+
 // quando um atendimento virar uma oportunidade as infos do pedido sao carregadas para a proxima pagina
 //atendimento: nome provisorio / pedido / status (oportunidade de venda" ou se "encerra")
 
@@ -20,11 +22,16 @@
 //1
 import {Schema, model} from 'mongoose';
 
-//2
+//2 DUVIDA - preciso conseguir "passar esse atendimento pra outro usuario - faço um enum para isso"? Caso do online que vai pra sondagem
 const atendimentoSchema = new Schema({
     pdv: {type: Schema.Types.ObjectId, ref: 'pdv'},
     usuario: {type: Schema.Types.ObjectId, ref: 'usuario'},
-    
+    cliente: { type: Schema.Types.ObjectId, ref: 'cliente'},
+    tipo: {enum: ['fisico', 'digital']},
+    tipoFisico: {enum: ['presencial', 'remoto']},
+    tipoDigital: {enum: ['video', 'chat', 'whatsApp', 'email']},
+    campanha: {enum: [""]},
+    status: {enum: ['continuar', 'finalizar']},
 
 }, {
     timestamps: true,

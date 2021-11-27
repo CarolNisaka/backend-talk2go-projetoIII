@@ -21,7 +21,11 @@ import { Schema, model } from "mongoose";
 
 const usuarioSchema = new Schema({
    
-    pdv: [{type: Schema.Types.ObjectId, ref: 'pdv'}],
+    pdvs: [{type: Schema.Types.ObjectId, ref: 'pdv'}],
+    atendimentos: [{type: Schema.Types.ObjectId, ref: 'atendimento'}],
+    clientes: [{type: Schema.Types.ObjectId, ref: 'cliente'}],
+    viagens: [{type: Schema.Types.ObjectId, ref: 'viagem'}],
+    oportunidades: [{type: Schema.Types.ObjectId, ref: 'oportunidade'}],
     nome: { type: String, required: true, minlength: 6, maxlength: 100},
     email: { type: String, required: true, unique: true},
     //precisa conter @agaxtur no e-mail
@@ -30,6 +34,8 @@ const usuarioSchema = new Schema({
     cpf: { type: String, required: true, minlength:14, maxlength: 14},
     foto: { type: String},
     role: { type: String, enum: ['Adm', 'Gestor', 'Financeiro', 'Consultor'], default: 'Consultor'},
+    
+
     
 
 }, {
