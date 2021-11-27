@@ -16,3 +16,22 @@
 
 //VIAGEM (diversos consultores e um cliente)
 //OPORTUNIDADE (um consultor e um cliente)
+
+//1
+import {Schema, model} from 'mongoose';
+
+//2
+const atendimentoSchema = new Schema({
+    pdv: {type: Schema.Types.ObjectId, ref: 'pdv'},
+    usuario: {type: Schema.Types.ObjectId, ref: 'usuario'},
+    
+
+}, {
+    timestamps: true,
+});
+
+//3
+const Atendimento = model('atendimento', atendimentoSchema);
+
+//4
+export default Atendimento;

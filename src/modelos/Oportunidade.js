@@ -15,3 +15,13 @@
 //OPORTUNIDADE (um consultor e um cliente)
 
 import { Schema, model } from "mongoose";
+
+const oportunidadeSchema = new Schema({
+
+}, {
+    timestamps: true,
+});
+
+const Oportunidade = model('oportunidade', oportunidadeSchema);
+
+export default Oportunidade;

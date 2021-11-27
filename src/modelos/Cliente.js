@@ -11,3 +11,16 @@
 
 //VIAGEM (diversos consultores e um cliente)
 //OPORTUNIDADE (um consultor e um cliente)
+
+//1
+import { Schema, model } from "mongoose";
+
+//2
+const clienteSchema = new Schema({
+
+}, {
+    timestamps: true,
+});
+
+//3
+export default clienteSchema;
