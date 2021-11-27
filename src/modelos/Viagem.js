@@ -18,6 +18,16 @@ import { Schema, model } from "mongoose";
 
 //2)
 const viagemSchema = new Schema({
+    pdv: {type: Schema.Types.ObjectId, ref: 'pdv'},
+    usuarios: [{type: Schema.Types.ObjectId, ref:'usuario'}],
+    clientes: [{type: Schema.Types.ObjectId, ref: 'cliente'}],
+    oportunidades: [{type: Schema.Types.ObjectId, ref:'oportunidade'}],
+    nomeDaViagem: {type: String},
+    destino: [{ type: String}],
+    dataInicio: {type: Date},
+    dataFim: {type: String},
+    status: {type: String, enum:['futuro', 'presente', 'passado']},
+
 
 }, {
     timestamps: true,

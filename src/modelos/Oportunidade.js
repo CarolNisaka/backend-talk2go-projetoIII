@@ -17,6 +17,29 @@
 import { Schema, model } from "mongoose";
 
 const oportunidadeSchema = new Schema({
+    pdv: {type: Schema.Types.ObjectId, ref:'pdv'},
+    usuarios: [{type: Schema.Types.ObjectId, ref:'usuario'}],
+    clientes: [{type: Schema.Types.ObjectId, ref: 'cliente'}],
+    viagem: {type: Schema.Types.ObjectId, ref: 'viagem'},
+    produtos: {type: String, enum: ['passagemAerea', 'hotel', 'cruzeiro', 'seguro', 'carro', 'transfer', 'passeio', 'circuito', 'outros']},
+    status: [{type: String, enum:['sondagem', 'fazerProposta', 'followUp', 'negociacao', 'venda', 'desistencia']}],
+    valorInicialDaOportunidade: {type: String},
+    rentabilidadeInicialDaOportunidade: {type: String},
+    valorFinaldaOportunidade: {type: String},
+    valorDescontoLoja: {type: String},
+    valorDescontoOperador: {type: String},
+    valorComissao: {type: String},
+    valorTaxas: {type: String},
+    valorSemTaxas: {type: String},
+    recebimentoDinheiro: {type: String},
+    recebimentoCartao: {type: String},
+    valorPagodaOportunidade: {type: String},
+    saldo: {type: String},
+    status2:{type: String, enum:['lançado', 'revisado']},
+
+
+
+
 
 }, {
     timestamps: true,
