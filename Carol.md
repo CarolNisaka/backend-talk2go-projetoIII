@@ -26,3 +26,4 @@ Passo a Passo do que fiz
 25) comecei pela criação das rotas de usuario e testei no insominia
 26) instalei o Yup para validaçoes
 27) depois de criar o schema do do auth e fazer o try catch para erros, criei a pasta de exceptions para tratar os erros que sao chamados carinhosamente de expections :)
+28) instalei a biblioteca bcryptjs

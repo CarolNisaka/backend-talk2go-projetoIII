@@ -1,9 +1,11 @@
 import { response, Router } from 'express';
 
 import * as yup from 'yup';
+import bcrypt from 'bcryptjs';
 
 import Usuario from '../models/Usuario';
 import InvalidBodyRequestExcpetion from '../exceptions/InvalidBodyRequest';
+import UserExiststExcpetion from '../exceptions/UserExistsExceptions';
 
 const router = Router();
 
@@ -13,7 +15,7 @@ router.post('/register', async (request, response, next) => {
         const schema = yup.object().shape({
             nome: yup.string().required('Campo obrigatório').min(6, 'Minímo 6 letras').max(100, 'Máximo 100 letras'),
             email:yup.string().required('Campo obrigatório').email('Formato inválido'),
-            senha:yup.string().required('Campo obrigatório').min(6, 'Mínimo 6 caracteres').max(10, 'Máximo 10 caracteres'),
+            senha:yup.string().required('Campo obrigatório').min(6, 'Mínimo 6 caracteres').max(150, 'Máximo 10 caracteres'),
             cpf:yup.string().required('Campo obrigatório').min(14, 'CPF no formato 111.222.333-44'),
         });
         try {
@@ -28,8 +30,27 @@ router.post('/register', async (request, response, next) => {
             throw new InvalidBodyRequestExcpetion(errors);
         }
        
+        //depois do try catch que valida se os dados foram preenchidos corretamente, vou verificar se o email ja existe na base
+        const foundUser = await Usuario.findOne({ email: request.body.email});
+        if (foundUser) {
+            throw new UserExiststExcpetion();
+        }
 
-        response.status(201).json(request.body);
+        //encriptar senha sendo o hashSync para aumentar a segurança da encpriptaçao
+        const encryptedSenha = bcrypt.hashSync(request.body.senha, bcrypt.genSaltSync(10));
+        
+        const newUsuario = {...request.body, senha: encryptedSenha };
+        
+        const saveUsuario = await Usuario.create(newUsuario);
+
+        const response = {
+            id: saveUsuario._id,
+            nome: saveUsuario.nome,
+            email: saveUsuario.email,
+            cpf: saveUsuario.cpf,
+        };
+
+        response.status(201).json(response);
     } catch (error) {
         next(error);
     }

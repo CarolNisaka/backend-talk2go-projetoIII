@@ -29,7 +29,7 @@ const usuarioSchema = new Schema({
     nome: { type: String, required: true, minlength: 6, maxlength: 100},
     email: { type: String, required: true, unique: true},
     //precisa conter @agaxtur no e-mail
-    senha: { type: String, required: true, minlength: 6, maxlength: 10},
+    senha: { type: String, required: true, minlength: 6, maxlength: 150},
     telefone: { type: String},
     cpf: { type: String, required: true, minlength:14, maxlength: 14},
     foto: { type: String},
