@@ -19,3 +19,7 @@ Passo a Passo do que fiz
 18) Migrei os middlewares do app para arquivos separados
 19) instalei mongoose
 20) criei os modelos
+21) Criei o mongodbconfig e importei ele por app.js e depois invoca ela na sequencia do express
+22) tirei a ulr do banco do mongoconfig e fiz ela no .env - conferi que que a invocacao dela esta depois do dotenv.config
+23) criei o router.js e trouxe ele pro app
+24) criei a pasta controller e seus arquivos

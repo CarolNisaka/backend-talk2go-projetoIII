@@ -1,26 +1,26 @@
 import express, { response } from 'express';
 import dotenv from 'dotenv';
 
+import iniciaMongoConection from './database/mongodbConfig';
+
+import appRoutes from './routes';
+
 import mapearRequest from './middlewares/mapearRequest';
 import erro from './middlewares/erro';
 import pagNaoEncontrada from './middlewares/pagNaoEncontrada';
 
+import Usuario from "./modelos/Usuario"
 
 dotenv.config();
 const app = express();
+iniciaMongoConection();
 
 //17) Middlewares - levei eles pra pasta correta
 app.use(mapearRequest);
-    
 
-app.get('/', (request, response, next) => {
-    try {
-       
-        response.json({ message: 'Teste 1'})
-    } catch (error) {
-      next(error);
-    }
-});
+//20) Middleware de configuracao de rotas
+app.use('/api', appRoutes);
+
 
 //18) Middlewares de erros -  Todas as rotas devem estar em cima desse midleware pra poder cair aqui.
 app.use(erro);
