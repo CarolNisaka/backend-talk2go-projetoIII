@@ -8,10 +8,10 @@ import viagemController from './controllers/viagemController';
 
 const router = Router();
 
-router.use('auth', authController);
-router.use('atendimento', atendimentoController);
-router.use('cliente', clienteController);
-router.use('viagem', viagemController);
-router.use('oportunidade', oportunidadeController);
+router.use('/auth', authController);
+router.use('/atendimento', atendimentoController);
+router.use('/cliente', clienteController);
+router.use('/viagem', viagemController);
+router.use('/oportunidade', oportunidadeController);
 
 export default router;
