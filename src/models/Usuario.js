@@ -31,7 +31,7 @@ const usuarioSchema = new Schema({
     //precisa conter @agaxtur no e-mail
     senha: { type: String, required: true, minlength: 6, maxlength: 150},
     telefone: { type: String},
-    cpf: { type: String, required: true, minlength:14, maxlength: 14},
+    cpf: { type: String, required: true, unique: true, minlength:14, maxlength: 14},
     foto: { type: String},
     role: { type: String, enum: ['Adm', 'Gestor', 'Financeiro', 'Consultor'], default: 'Consultor'},
     

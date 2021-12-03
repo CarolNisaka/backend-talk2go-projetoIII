@@ -1,5 +1,5 @@
 Passo a Passo do que fiz
-1) NPM Init para packege.json
+1) NPM Init para packege.json e iniciar o Mongo (sudo service mongod start)
 2) Install Express
 3) Install Nodemon como dependencia de desenvolvimento apenas
 4) Script de Start e DEV com node e nodemon respectivamente
@@ -27,3 +27,5 @@ Passo a Passo do que fiz
 26) instalei o Yup para validaçoes
 27) depois de criar o schema do do auth e fazer o try catch para erros, criei a pasta de exceptions para tratar os erros que sao chamados carinhosamente de expections :)
 28) instalei a biblioteca bcryptjs
+29) criei a funcao do Login
+30) Login com token JWT - autenticaçao
