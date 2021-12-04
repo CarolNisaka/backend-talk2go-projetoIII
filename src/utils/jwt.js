@@ -1,10 +1,18 @@
 import jwt from 'jsonwebtoken';
 
-const generateLoginToken = (payload) => {
+export const generateLoginToken = (payload) => {
     return jwt.sign(
         payload, 
         process.env.LOGIN_TOKEN_SECRET,
         { expiresIn: process.env.LOGIN_TOKEN_EXPIRATION });
 };
 
-export default generateLoginToken
+export const verifyLoginToken = (token) => {
+    return jwt.verify(
+        token, 
+        process.env.LOGIN_TOKEN_SECRET
+    )
+};
+    
+
+

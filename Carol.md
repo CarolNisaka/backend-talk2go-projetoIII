@@ -29,3 +29,4 @@ Passo a Passo do que fiz
 28) instalei a biblioteca bcryptjs
 29) criei a funcao do Login
 30) Login com token JWT - autenticaçao
+31) Proteção de rotas privadas com o token (no Insonimia Bearer token) - rever aula 11 do youtube

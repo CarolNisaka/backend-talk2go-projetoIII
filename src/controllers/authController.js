@@ -21,6 +21,7 @@ router.post('/register', async (request, response, next) => {
             senha:yup.string().required('Campo obrigatório').min(6, 'Mínimo 6 caracteres').max(150, 'Máximo 10 caracteres'),
             cpf:yup.string().required('Campo obrigatório').min(14, 'CPF no formato 111.222.333-44'),
         });
+
         try {
             //o validate é uma promisse, por isso o async (na linha da rota) e o await. Coloca no try catch para pegar os errors detalhados
             await schema.validate(request.body, { abortEarly: false}); //valida o schema e se tiver problema apresenta err e o abortEarly false avisa de uma vez tudo que tem err
@@ -87,16 +88,17 @@ router.post('/login', async (request, response, next) => {
             senha: request.body.senha,
         };
 
+        //TA DANDO PAU AQUI!!!!
         const token = generateLoginToken({
             id: foundUser._id,
             role: foundUser.role,
         });
 
-        console.log(token);
+        // console.log(token);
         
         const loginOK = {
-            email: request.body.email,
-            senha: request.body.senha,
+            // email: request.body.email,
+            // senha: request.body.senha,
             token: token,
             role: foundUser.role,
 
