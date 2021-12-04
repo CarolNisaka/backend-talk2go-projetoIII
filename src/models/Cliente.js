@@ -41,8 +41,8 @@ const clienteSchema = new Schema({
     timestamps: true,
 });
 
-
+const Cliente = model('cliente', clienteSchema);
 
 
 //3
-export default clienteSchema;
+export default Cliente;

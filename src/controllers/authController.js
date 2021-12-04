@@ -7,8 +7,7 @@ import Usuario from '../models/Usuario';
 import InvalidBodyRequestExcpetion from '../exceptions/InvalidBodyRequest';
 import UserExiststExcpetion from '../exceptions/UserExistsExceptions';
 import InvalidLoginException from '../exceptions/InvalidLoginExceptions';
-import GenerateLoginToken from '../utils/jwt';
-import generateLoginToken from '../utils/jwt';
+import { generateLoginToken } from '../utils/jwt';
 
 const router = Router();
 
@@ -66,7 +65,7 @@ router.post('/register', async (request, response, next) => {
 router.post('/login', async (request, response, next) => {
     try {
         const foundUser = await Usuario.findOne({ email: request.body.email});
-
+        console.log(foundUser)
         if (!foundUser) {
             throw new InvalidLoginException();
         }
@@ -94,16 +93,16 @@ router.post('/login', async (request, response, next) => {
             role: foundUser.role,
         });
 
-        // console.log(token);
+        console.log(token);
         
-        const loginOK = {
-            // email: request.body.email,
-            // senha: request.body.senha,
-            token: token,
-            role: foundUser.role,
+        // const loginOK = {
+        //     // email: request.body.email,
+        //     // senha: request.body.senha,
+        //     token: token,
+        //     role: foundUser.role,
 
-        }
-    response.status(200).json(loginOK);
+        // }
+    response.status(200).json(token);
 
     } catch (error) {
         next(error);

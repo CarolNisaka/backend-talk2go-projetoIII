@@ -14,6 +14,7 @@ const router = Router();
 router.use('/auth', authController); //rota publica
 
 // Antes das rotas privadas, criar um midleware de proteçao para a rota privada - pega o token, valida e deixa passar ou nao.
+//ta comentada pq ta dando pau 
 router.use(protectedRouteMiddleware);
 
 //tirar depois a rora teste despois que eu resolver o erro no authcontroler linha 91
