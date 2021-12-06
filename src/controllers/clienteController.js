@@ -3,6 +3,7 @@ import * as yup from 'yup';
 import Cliente from '../models/Cliente';
 // import Pdv from '../models/Pdv';
 import ClientExiststExcpetion from '../exceptions/ClientExistsException';
+import ClientNotFoundExcpetion from '../exceptions/ClientNotFound';
 
 import validateId from '../validation/mongooseIdValidation';
 
@@ -73,7 +74,7 @@ router.post('/', async (request, response, next) => {
 
     console.log(usuario);
 
-    //TA FALATANDO EU CONSEGUIR COLCAR O USUARIO QUE CRIOU ESSE CLIENTE
+    
     const newCliente = {
         usuarios: [usuario],
         apelido: request.body.apelido,
@@ -120,6 +121,45 @@ router.post('/', async (request, response, next) => {
 router.put('/:clienteId', async (request, response, next) => {
     try {
 
+        const { body } = request;
+        const { clienteId } = request.params;
+        const { id } = request.user;
+
+        
+        const schema = yup.object().shape({
+            apelido: yup.string().required('Campo obrigatório').max(50, 'Máximo 50 caracteres'),
+            apelido: yup.string().max(100, 'Máximo 100 caracteres'),
+            telefonePrincipal: yup.string(),
+            telefoneSecundario: yup.string(),
+            email: yup.string().email(),
+            endereco: yup.string(),
+            rg: yup.string(),
+            cpf: yup.string(),
+            nascimento: yup.date(),
+            passaporte: yup.string(),
+            validadePassaporte: yup.date(),
+            vacina: yup.string(),
+            foto: yup.string(),
+        });
+
+        //NAO TA PEGANDO O USUARIO QUE MODIFICOU
+        // const usuario = request.user.id;
+
+        validateId(clienteId);
+
+        const cliente = await Cliente.findOne({ _id: clienteId, usuario: id });
+
+        if(!cliente) {
+            throw new ClientNotFoundExcpetion()
+        }
+         
+        
+
+    const editedCliente = await Cliente.findByIdAndUpdate(clienteId, body, { new: true});
+
+    
+    response.status(201).json(editedCliente);
+    
     } catch (error) {
         next(error);
     }
