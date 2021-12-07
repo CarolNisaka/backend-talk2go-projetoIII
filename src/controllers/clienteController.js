@@ -1,9 +1,11 @@
 import { response, Router } from 'express';
 import * as yup from 'yup';
 import Cliente from '../models/Cliente';
+import Atendimento from '../models/Atendimento';
 // import Pdv from '../models/Pdv';
 import ClientExiststExcpetion from '../exceptions/ClientExistsException';
 import ClientNotFoundExcpetion from '../exceptions/ClientNotFound';
+
 
 import validateId from '../validation/mongooseIdValidation';
 
@@ -21,8 +23,7 @@ router.get('/', async (request, response, next) => {
         
         const clientes = await Cliente.find({ apelido: { $regex: apelidoRegex} });
 
-        console.log(clientes)
-
+        
         response.json(clientes);
     } catch (error) {
         next(error);
@@ -38,7 +39,7 @@ router.get('/:clienteId', async (request, response, next) => {
 
         validateId(clienteId);
 
-        const cliente = await Cliente.findOne({ _id: clienteId });
+        const cliente = await Cliente.findOne({ _id: clienteId }).populate('atendimentos');
 
         response.json(cliente);
 
@@ -51,7 +52,7 @@ router.post('/', async (request, response, next) => {
     try {
         const schema = yup.object().shape({
             apelido: yup.string().required('Campo obrigatório').max(50, 'Máximo 50 caracteres'),
-            apelido: yup.string().max(100, 'Máximo 100 caracteres'),
+            nome: yup.string().max(100, 'Máximo 100 caracteres'),
             telefonePrincipal: yup.string(),
             telefoneSecundario: yup.string(),
             email: yup.string().email(),
@@ -72,13 +73,11 @@ router.post('/', async (request, response, next) => {
     
     const usuario = request.user.id;
 
-    console.log(usuario);
-
-    
+        
     const newCliente = {
         usuarios: [usuario],
         apelido: request.body.apelido,
-        apelido: request.body.apelido,
+        nome: request.body.nome,
         telefonePrincipal: request.body.telefonePrincipal,
         telefoneSecundario: request.body.telefoneSecundario,
         email: request.body.email,
@@ -97,7 +96,7 @@ router.post('/', async (request, response, next) => {
     const clienteResponse = {
         id: saveCliente._id,
         apelido: saveCliente.apelido,
-        apelido: saveCliente.apelido,
+        nome: saveCliente.nome,
         telefonePrincipal: saveCliente.telefonePrincipal,
         telefoneSecundario: saveCliente.telefoneSecundario,
         email: saveCliente.email,

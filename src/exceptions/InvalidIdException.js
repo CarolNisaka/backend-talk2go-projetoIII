@@ -1,7 +1,7 @@
 class InvalidIdException extends Error {
     constructor() {
         super();
-        this.message = "Invalid Id Informed";
+        this.message = "Id inexistente";
         this.status = 400;
     }
 }
