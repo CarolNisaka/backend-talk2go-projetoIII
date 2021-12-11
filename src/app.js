@@ -1,5 +1,6 @@
 import express, { response } from 'express';
 import dotenv from 'dotenv';
+import cors from 'cors';
 
 import iniciaMongoConection from './database/mongodbConfig';
 
@@ -16,6 +17,9 @@ iniciaMongoConection();
 
 //21) colocar o json no body para as rotas com post
 app.use(express.json());
+app.use(cors({
+    origin: process.env.FRONT_END_URI,
+})); //importei o cors e liberei acesso pro localhost - mudar no deploy - fiz no .env
 
 //17) Middlewares - levei eles pra pasta correta
 app.use(mapearRequest);

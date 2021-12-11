@@ -25,14 +25,14 @@ import {Schema, model} from 'mongoose';
 //2 DUVIDA - preciso conseguir "passar esse atendimento pra outro usuario - faço um enum para isso"? Caso do online que vai pra sondagem
 const atendimentoSchema = new Schema({
     pdv: {type: Schema.Types.ObjectId, ref: 'pdv'},
-    usuarios: {type: Schema.Types.ObjectId, ref: 'usuario'},
+    usuario: {type: Schema.Types.ObjectId, ref: 'usuario'},
     cliente: { type: Schema.Types.ObjectId, ref: 'cliente'},
-    tipo: {enum: ['fisico', 'digital']},
-    tipoFisico: {enum: ['presencial', 'remoto']},
-    tipoDigital: {enum: ['video', 'chat', 'whatsApp', 'email']},
-    campanha: {enum: [""]},
+    tipo: {type: String, enum: ['fisico', 'digital']},
+    tipoFisico: {type: String, enum: ['presencial', 'remoto','']},
+    tipoDigital: {type: String, enum: ['video', 'chat', 'whatsApp', 'email', '']},
+    campanha: {type: String, enum: [""]},
     pedido:{type: String},
-    status: {enum: ['continuar', 'finalizar']},
+    status: {type: String, enum: ['continuar', 'finalizar']},
 
 }, {
     timestamps: true,

@@ -23,9 +23,9 @@ router.get('/test', (request, response) => {
     response.json({message: ' teste de acess rota protegida'})
 });
 
-router.use('/atendimento', atendimentoController); //rota privada
-router.use('/cliente', clienteController);//rota privada
-router.use('/viagem', viagemController);//rota privada
-router.use('/oportunidade', oportunidadeController);//rota privada
+router.use('/atendimentos', atendimentoController); //rota privada
+router.use('/clientes', clienteController);//rota privada
+router.use('/viagens', viagemController);//rota privada
+router.use('/oportunidades', oportunidadeController);//rota privada
 
 export default router;

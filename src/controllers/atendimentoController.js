@@ -3,13 +3,22 @@ import * as yup from 'yup';
 import Cliente from '../models/Cliente';
 import ClientExiststExcpetion from '../exceptions/ClientExistsException';
 import Atendimento from '../models/Atendimento';
+import validateId from '../validation/mongooseIdValidation';
+import Usuario from '../models/Usuario';
+import ClientNotFoundExcpetion from '../exceptions/ClientNotFound';
 
 const router = Router();
 
 //get de atendimento de cliente por ID
-router.get('/:clienteId', async (request, response, next) => {
+router.get('/:atendimentoId', async (request, response, next) => {
     try {
+        const { atendimentoId } = request.params;
 
+        validateId(atendimentoId);
+
+        const atendimento = await Atendimento.findOne({_id: atendimentoId});
+
+        response.json(atendimento);
     }catch (error) {
         next
     }
@@ -20,7 +29,7 @@ router.post('/', async (request, response, next) => {
     try {
         const schema = yup.object().shape({
             tipo: yup.string().required(),
-            tipoFisico: yup.string(), //se eu colocar required vai ferrar pq o atendimento é fisico OU digital
+            tipoFisico: yup.string(), 
             tipoDigital: yup.string(),
             apelido: yup.string(), //apelido é propriedade de um cliente que eu preciso buscar no banco se exisye
             campanha: yup.string(),
@@ -31,9 +40,9 @@ router.post('/', async (request, response, next) => {
         const usuario = request.user.id;
 
         const newAtendimento = {
-            usuarios: [usuario],
-            apelido: request.body.apelido, //apelido é uma propriedade de cliente  - to passando errado
-            tipo: request.body.tipo, // tipo é fisico OU digital
+            usuario: usuario,
+            cliente: request.body.clienteId, 
+            tipo: request.body.tipo,
             tipoFisico: request.body.tipoFisico,
             tipoDigital: request.body.tipoDigital,
             campanha: request.body.campanha,
@@ -42,16 +51,16 @@ router.post('/', async (request, response, next) => {
         };
 
         //fiz esse throw mas o que quero mesmo é sugerir ao usuario clientes possiveis ja cadastrados na base
-        const foundCliente = await Cliente.findOne({ apelido: request.body.apelido})
-        if (foundCliente) {
-            throw new ClientExiststExcpetion();
+        const foundCliente = await Cliente.findOne({ _id: request.body.clienteId })
+        if (!foundCliente) {
+            throw new ClientNotFoundExcpetion();
         }
 
         const saveAtendimento = await Atendimento.create(newAtendimento);
-
+       
         const atendimentoResponse = {
             id: saveAtendimento._id,
-            apelido: saveAtendimento.apelido, // é de cliente - preciso vincular sabe Deus como?
+            cliente: saveAtendimento.cliente, 
             tipo: saveAtendimento.tipo,
             tipoFisico: saveAtendimento.tipoFisico,
             tipoDigital: saveAtendimento.tipoDigital,
@@ -60,6 +69,9 @@ router.post('/', async (request, response, next) => {
             status: saveAtendimento.status,
 
         }
+         await Cliente.findOneAndUpdate({_id: atendimentoResponse.cliente}, {$push:{atendimentos:atendimentoResponse.id}});
+         await Usuario.findOneAndUpdate({_id: usuario}, {$push: {atendimentos: atendimentoResponse.id}});
+
         response.status(201).json(atendimentoResponse);
     }catch (error) {
         next(error);
