@@ -17,15 +17,16 @@ router.post('/register', async (request, response, next) => {
     try {
         const schema = yup.object().shape({
             nome: yup.string().required('Campo obrigatório').min(6, 'Minímo 6 letras').max(100, 'Máximo 100 letras'),
+            cpf:yup.string().required('Campo obrigatório').min(14, 'CPF no formato 111.222.333-44'),
             email:yup.string().required('Campo obrigatório').email('Formato inválido').matches(/@agaxtur/, "Precisa ser e-mail empresa"),
             senha:yup.string().required('Campo obrigatório').min(6, 'Mínimo 6 caracteres').max(150, 'Máximo 10 caracteres'),
-            cpf:yup.string().required('Campo obrigatório').min(14, 'CPF no formato 111.222.333-44'),
+            
         }); //no model eu falei que o cpf era unico - como faz aqui?
 
         await validateSchema(schema, request.body);
        
         //depois do try catch que valida se os dados foram preenchidos corretamente, vou verificar se o email ja existe na base
-        const foundUser = await Usuario.findOne({ email: request.body.email});
+        const foundUser = await Usuario.findOne({$or:[{ email: request.body.email}, { cpf: request.body.cpf}]});
 
         if (foundUser) {
             throw new UserExiststExcpetion();
@@ -42,8 +43,10 @@ router.post('/register', async (request, response, next) => {
         const userResponse = {
             id: saveUsuario._id,
             nome: saveUsuario.nome,
-            email: saveUsuario.email,
             cpf: saveUsuario.cpf,
+            email: saveUsuario.email,
+            senha: saveUsuario.senha,
+            
         };
 
         
